@@ -2,7 +2,6 @@ var express = require('express');
 var dbConfig = require('./db.js');
 var mongoose = require('mongoose');
 var passport = require("passport");
-var LocalStrategy = require('passport-local').Strategy;
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var routes = require('./routes/index');
@@ -27,10 +26,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', routes);
 
-var Account = require('./models/account');
-passport.use(new LocalStrategy(Account.authenticate()));
-passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
+var initPassport = require('./passport/init');
+initPassport(passport);
 
 mongoose.connect(dbConfig.url);
 

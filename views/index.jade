@@ -4,9 +4,12 @@ block content
   div(class="container")
     h1 Running with Bernie
     div(id="app")
+    div(id="actions")
     if (!user)
       a(href="/login") Login 
       a(href="/register") Register
     if (user)
       p You are currently logged in as #{user.username}
       a(href="/logout") Logout
+      script.
+        console.log('this is a test')

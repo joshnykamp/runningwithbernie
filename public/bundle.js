@@ -19664,7 +19664,7 @@
 	        return React.createElement(
 	            "div",
 	            null,
-	            React.createElement(LatestUsers, null)
+	            React.createElement(LatestUsers, { source: "users/2" })
 	        );
 	    }
 	});
@@ -26871,30 +26871,51 @@
 
 	var LatestUsers = React.createClass({
 	    displayName: 'LatestUsers',
-	    getDefaultProps: function getDefaultProps() {
-	        //Do an ajax call for that past two users that signed up if there is no connection.
-	        return {
-	            users: [{ id: 1, name: 'Josh', city: 'Lakewood' }, { id: 2, name: 'Bill', city: 'Denver' }],
-	            status: 'test'
-	        };
+	    getInitialState: function getInitialState() {
+	        return { loading: true, error: false, name: null };
 	    },
+
+	    componentDidMount: function componentDidMount() {
+	        $.get(this.props.source, (function (result) {
+	            console.log('result', result.data);
+	            if (this.isMounted()) {
+	                console.log('set state fired');
+	                this.setState({
+	                    users: result.data,
+	                    loading: false
+	                });
+	            }
+	        }).bind(this));
+	    },
+	    /*getDefaultProps() {
+	         //Do an ajax call for that past two users that signed up if there is no connection.
+	         return {
+	             users: [
+	                 { id: 1, username: 'Josh' },
+	                 { id: 2, username: 'Bill' },
+	             ], 
+	             status: 'test'
+	         }
+	     },*/
 	    render: function render() {
+	        if (this.state.loading) {
+	            return React.createElement(
+	                'div',
+	                null,
+	                'Loading...'
+	            );
+	        }
 	        return React.createElement(
 	            'div',
 	            { className: 'row' },
-	            this.props.users.map(function (user) {
+	            this.state.users.map(function (user) {
 	                return React.createElement(
 	                    'div',
 	                    { key: user.id, className: 'col-sm-6' },
 	                    React.createElement(
 	                        'p',
 	                        null,
-	                        user.name
-	                    ),
-	                    React.createElement(
-	                        'p',
-	                        null,
-	                        user.city
+	                        user.username
 	                    )
 	                );
 	            })

@@ -13,7 +13,7 @@ var App = React.createClass({
     render() {
         return (
             <div>
-                <LatestUsers />
+                <LatestUsers source="users/2" />
             </div>
         );
     }

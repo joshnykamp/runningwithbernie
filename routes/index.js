@@ -48,16 +48,17 @@ router.get('/users', function(req, res, next) {
 });
 
 router.get('/users/:numofusers', function(req, res, next) {
+ var data = {};
  var query = User.find({});
  query.limit(req.params.numofusers);
  query.exec(function(err, users) {
      if(err) throw err;
-     res.json(users);
+     data = users.map(function(val, index) {
+         return {'username': val.username, 'id': val.id};
+     })
+     console.log(data);
+     res.json({'success' : true, 'data': data});
  })
- /*User.find.limit(2).exec(function(err, users) {
-      if(err) throw err; 
-      res.json(users);
-  });*/
 });
 
 module.exports = router;

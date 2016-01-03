@@ -41,12 +41,23 @@ router.get('/ping', function(req, res){
 
 /* GET users listing. */
 router.get('/users', function(req, res, next) {
-  //res.send('respond with a resource');
  User.find({}, function(err, users) {
       if(err) throw err; 
       res.json(users);
   });
 });
 
+router.get('/users/:numofusers', function(req, res, next) {
+ var query = User.find({});
+ query.limit(req.params.numofusers);
+ query.exec(function(err, users) {
+     if(err) throw err;
+     res.json(users);
+ })
+ /*User.find.limit(2).exec(function(err, users) {
+      if(err) throw err; 
+      res.json(users);
+  });*/
+});
 
 module.exports = router;

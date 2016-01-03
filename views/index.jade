@@ -3,13 +3,16 @@ extends layout
 block content
   div(class="container")
     h1 Running with Bernie
-    div(id="app")
-    div(id="actions")
+      div(id="app")
     if (!user)
       a(href="/login") Login 
       a(href="/register") Register
     if (user)
-      p You are currently logged in as #{user.username}
+      ul(id="actions")
+      p #{user.username} | #{user.zipcode}
       a(href="/logout") Logout
       script.
-        console.log('this is a test')
+        var socket = io();
+        socket.on('new user', function(msg){
+          $('#actions').append($('<li>').text(msg));
+        });

@@ -49,8 +49,10 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var App = __webpack_require__(159);
+	var Actions = __webpack_require__(211);
 
 	ReactDOM.render(React.createElement(App, null), document.getElementById('app'));
+	ReactDOM.render(React.createElement(Actions, null), document.getElementById('actions'));
 
 /***/ },
 /* 1 */
@@ -26901,6 +26903,28 @@
 	});
 
 	module.exports = LatestUsers;
+
+/***/ },
+/* 211 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	//for now this will be the global feed for the index page
+	var Actions = React.createClass({
+	   displayName: 'Actions',
+	   render: function render() {
+	      return React.createElement(
+	         'h1',
+	         null,
+	         'Latest Actions'
+	      );
+	   }
+	});
+
+	module.exports = Actions;
 
 /***/ }
 /******/ ]);

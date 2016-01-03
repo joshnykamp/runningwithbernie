@@ -3,7 +3,7 @@ var io = require("socket.io-client");
 var LatestUsers = require("./LatestUsers");
 
 var App = React.createClass({
-     componentWillMount() {
+    componentWillMount() {
         this.socket = io("https://runningwithbernie-joshnykamp2.c9users.io");
         this.socket.on('connect', this.connect);
     },

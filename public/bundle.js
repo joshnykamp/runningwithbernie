@@ -52,7 +52,7 @@
 	var Actions = __webpack_require__(211);
 
 	ReactDOM.render(React.createElement(App, null), document.getElementById('app'));
-	ReactDOM.render(React.createElement(Actions, null), document.getElementById('actions'));
+	ReactDOM.render(React.createElement(Actions, { source: "/users" }), document.getElementById('actions'));
 
 /***/ },
 /* 1 */
@@ -26911,11 +26911,16 @@
 	            this.state.users.map(function (user) {
 	                return React.createElement(
 	                    'div',
-	                    { key: user.id, className: 'col-sm-6' },
+	                    { key: user._id, className: 'col-sm-6' },
 	                    React.createElement(
 	                        'p',
 	                        null,
 	                        user.username
+	                    ),
+	                    React.createElement(
+	                        'p',
+	                        null,
+	                        user.zipcode
 	                    )
 	                );
 	            })
@@ -26936,11 +26941,50 @@
 	//for now this will be the global feed for the index page
 	var Actions = React.createClass({
 	   displayName: 'Actions',
+	   getInitialState: function getInitialState() {
+	      return { loading: true, error: false, name: null };
+	   },
+
+	   componentDidMount: function componentDidMount() {
+	      $.get(this.props.source, (function (result) {
+	         console.log(result);
+	         if (this.isMounted()) {
+	            this.setState({
+	               users: result.data,
+	               loading: false
+	            });
+	         }
+	      }).bind(this));
+	   },
 	   render: function render() {
+	      if (this.state.loading) {
+	         return React.createElement(
+	            'div',
+	            null,
+	            'Loading...'
+	         );
+	      }
 	      return React.createElement(
-	         'h1',
+	         'div',
 	         null,
-	         'Latest Actions'
+	         React.createElement(
+	            'h3',
+	            null,
+	            'Latest Actions'
+	         ),
+	         React.createElement(
+	            'ul',
+	            null,
+	            this.state.users.map(function (user) {
+	               return React.createElement(
+	                  'li',
+	                  { key: user._id },
+	                  user.username,
+	                  ' Just joined in ',
+	                  user.zipcode
+	               );
+	            })
+	         )
 	      );
 	   }
 	});

@@ -34,8 +34,9 @@ var LatestUsers = React.createClass({
             <div className="row">
                 {this.state.users.map(function(user) {
                     return(
-                        <div key={user.id} className="col-sm-6">
+                        <div key={user._id} className="col-sm-6">
                             <p>{user.username}</p>
+                            <p>{user.zipcode}</p>
                         </div>
                     )
                 })}

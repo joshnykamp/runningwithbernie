@@ -41,24 +41,22 @@ router.get('/ping', function(req, res){
 
 /* GET users listing. */
 router.get('/users', function(req, res, next) {
- User.find({}, function(err, users) {
+ var query = User.find({}); 
+ query.sort({$natural: -1});
+ query.exec(function(err, users){
       if(err) throw err; 
-      res.json(users);
+      res.json({'success': true, 'data': users});
   });
 });
 
 router.get('/users/:numofusers', function(req, res, next) {
- var data = {};
- var query = User.find({});
- query.limit(req.params.numofusers);
- query.exec(function(err, users) {
-     if(err) throw err;
-     data = users.map(function(val, index) {
-         return {'username': val.username, 'id': val.id};
-     })
-     console.log(data);
-     res.json({'success' : true, 'data': data});
- })
+    var query = User.find({});
+    query.sort({$natural: -1})
+    query.limit(req.params.numofusers);
+    query.exec(function(err, users) {
+    if(err) throw err;
+        res.json({'success' : true, 'data': users});
+    });
 });
 
 module.exports = router;
